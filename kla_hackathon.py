@@ -1,20 +1,28 @@
 import math
 
-def matching_pairs(lengths_poi,lengths_source):
-    p = []
-    for i in range(len(lengths_poi)):
-        for j in range(len(lengths_source)):
-            print(len(lengths_poi[i]),len(lengths_source[j]))
-            if len(lengths_source[i]) == len(lengths_poi[j]) and lengths_poi[i][0]//lengths_source[j][0] == lengths_poi[i][1]//lengths_source[j][1] == lengths_poi[i][2]//lengths_source[j][2] == lengths_poi[i][3]//lengths_source[j][3] == lengths_poi[i][4]//lengths_source[j][4] == lengths_poi[i][5]//lengths_source[j][5]:
+#if there are similar polygons in poi remove it
+def sim_pol(lengths_poi):
+    cur = []
+    for t in range(len(lengths_poi)-1):
+        print(lengths_poi)
+        temp = lengths_poi[0][0] / lengths_poi[1][0]
+        f = 1
+        for s in range(t,len(lengths_poi)-1):
+            if lengths_poi[t][s] / lengths_poi[t+1][s] == temp:
                 pass
             else:
-                p.append(lengths_source[j])
-    return p
+                f = 0
+            if f == 0:
+                cur.append(lengths_poi[t])
+            else:
+                cur.append(lengths_poi[t+1])
+        print(cur)
+    return cur
 
+#calculate the distances of polygon poi and sources
 def distances(poi,source):
-    lengths_source = []
-    lengths_poi = []
-
+    lengths_poi = [] #distsnce in coordinates of poi is stored in list of list
+    p = []
     for i in range(len(poi)):
         if poi[i] == 'boundary\n' and 'xy' in poi[i+3]:
             poi_xy = poi[i+3].split(" ")
@@ -28,6 +36,8 @@ def distances(poi,source):
                 y += 2
             a1.sort()
             lengths_poi.append(a1)
+
+    lengths_poi = sim_pol(lengths_poi)
     for j in range(len(source)):
         a = []
         if source[j] == 'boundary\n' and 'xy' in source[j+3]:
@@ -40,10 +50,21 @@ def distances(poi,source):
                 a += [math.sqrt(u+v)]
                 z += 2
             a.sort()
-            lengths_source.append(a)
-    return lengths_poi,lengths_source
+            #checking the ratio of the lengths are equal
+            for t in range(len(lengths_poi)):
+                if len(a) == len(lengths_poi[0]):
+                    temp = lengths_poi[0][0]/a[0]
+                    f = 1
+                    for s in range(len(a)):
+                        if lengths_poi[t][s]/a[s] == temp:
+                            pass
+                        else:
+                            f = 0
+                    if f == 1:
+                        p.append(source[j]+source[j+1]+source[j+2]+source[j+3]+source[j+4])
+    return p
 
-
+#milestone1 - verifying the input file  and writing in the output file
 def output_verification(k):
     output1 = open("output1.txt", "w")
     for i in range(len(k)):
@@ -58,15 +79,25 @@ def output_verification(k):
 
 if __name__ == '__main__':
     input1 = open("Format_Source.txt", "r")
+    #milestone1
     k = input1.readlines()
-    output_verification(k)
+    output_verification(k) #milestone1 output stored here
+
+    #milestone2-milestone3-milestone4-milestone5
     input2 = open("POI.txt","r")
     input3 = open("Source.txt","r")
     poi = input2.readlines()
     source = input3.readlines()
-    lengths_poi,lengths_source = distances(poi,source)
-    p = matching_pairs(lengths_poi,lengths_source)
+    p = distances(poi, source)
+    print(len(source))
     print(len(p))
+    #lengths_poi,lengths_source = distances(poi,source)
+    #area(poi,source)
+    #p = matching_pairs(lengths_poi,lengths_source)
+
+    output2 = open("output2.txt", "w") #milestone 2,3,4,5,6,7 are stored here according to their respective inputs
+    for i in range(len(p)):
+        output2.write(p[i])
 
 
 
