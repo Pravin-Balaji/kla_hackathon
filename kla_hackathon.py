@@ -1,24 +1,5 @@
 import math
 
-#if there are similar polygons in poi remove it
-def sim_pol(lengths_poi):
-    cur = []
-    for t in range(len(lengths_poi)-1):
-        print(lengths_poi)
-        temp = lengths_poi[0][0] / lengths_poi[1][0]
-        f = 1
-        for s in range(t,len(lengths_poi)-1):
-            if lengths_poi[t][s] / lengths_poi[t+1][s] == temp:
-                pass
-            else:
-                f = 0
-            if f == 0:
-                cur.append(lengths_poi[t])
-            else:
-                cur.append(lengths_poi[t+1])
-        print(cur)
-    return cur
-
 #calculate the distances of polygon poi and sources
 def distances(poi,source):
     lengths_poi = [] #distsnce in coordinates of poi is stored in list of list
@@ -37,7 +18,6 @@ def distances(poi,source):
             a1.sort()
             lengths_poi.append(a1)
 
-    lengths_poi = sim_pol(lengths_poi)
     for j in range(len(source)):
         a = []
         if source[j] == 'boundary\n' and 'xy' in source[j+3]:
