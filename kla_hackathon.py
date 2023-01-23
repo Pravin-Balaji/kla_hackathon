@@ -67,7 +67,7 @@ if __name__ == '__main__':
     k = input1.readlines()
     output_verification(k) #milestone1 output stored here
 
-    #milestone2-milestone3-milestone4-milestone5
+    #milestone2-milestone3-milestone4-milestone5-milestone6-milestone7
     input2 = open("POI.txt","r")
     input3 = open("Source.txt","r")
     poi = input2.readlines()
