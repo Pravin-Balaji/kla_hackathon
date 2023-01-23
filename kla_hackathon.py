@@ -1,5 +1,9 @@
 import math
 
+#accuracy and purity is 100% for milestons 1,2,3,5,6
+
+#my assumption for fourth milestone is that may be the two polygons combine together to form another polygon
+
 #calculate the distances of polygon poi and sources
 def distances(poi,source):
     lengths_poi = [] #distsnce in coordinates of poi is stored in list of list
@@ -71,6 +75,7 @@ if __name__ == '__main__':
     p = distances(poi, source)
     print(len(source))
     print(len(p))
+    print(poi)
     #lengths_poi,lengths_source = distances(poi,source)
     #area(poi,source)
     #p = matching_pairs(lengths_poi,lengths_source)
